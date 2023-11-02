@@ -109,6 +109,11 @@ func (r *VoskRecognizer) SetGrm(grammar string) {
 	C.vosk_recognizer_set_grm(r.rec, cgrammar)
 }
 
+// SetSilence sets the trailing silence length threshold.
+func (r *VoskRecognizer) SetSilence(length float64) {
+	C.vosk_recognizer_set_silence(r.rec, C.float(length))
+}
+
 // SetMaxAlternatives configures the recognizer to output n-best results.
 func (r *VoskRecognizer) SetMaxAlternatives(maxAlternatives int) {
 	C.vosk_recognizer_set_max_alternatives(r.rec, C.int(maxAlternatives))

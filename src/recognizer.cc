@@ -220,24 +220,13 @@ void Recognizer::SetNLSML(bool nlsml)
     nlsml_ = nlsml;
 }
 
-void Recognizer::SetEpMode(int mode)
+void Recognizer::SetSilence(float length)
 {
-    float scale = 1.0;
-    switch(mode) {
-        case 1:
-           scale = 0.75;
-           break;
-        case 2:
-           scale = 1.50;
-           break;
-        default:
-           scale = 4.0;
-    }
-    KALDI_LOG << "Endpointer Scale " << scale;
+    KALDI_LOG << "Silence Length " << length;
     endpoint_config_ = model_->endpoint_config_;
-    endpoint_config_.rule2.min_trailing_silence *= scale;
-    endpoint_config_.rule3.min_trailing_silence *= scale;
-    endpoint_config_.rule4.min_trailing_silence *= scale;
+    endpoint_config_.rule2.min_trailing_silence = length * 0.5;
+    endpoint_config_.rule3.min_trailing_silence = length * 0.75;
+    endpoint_config_.rule4.min_trailing_silence = length;
 }
 
 void Recognizer::SetSpkModel(SpkModel *spk_model)
